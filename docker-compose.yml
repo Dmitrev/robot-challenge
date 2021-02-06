@@ -18,6 +18,7 @@ services:
     - ./src:/src
     networks:
       www:
+    working_dir: /src
 
 networks:
   www:
