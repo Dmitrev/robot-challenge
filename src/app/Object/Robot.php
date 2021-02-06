@@ -20,6 +20,7 @@ class Robot
         $this->currentOrientation = array_flip($this->orientations)[$orientation];
     }
 
+
     public function deploy()
     {
         foreach ($this->moves as $move) {
@@ -76,14 +77,19 @@ class Robot
             default: throw new RuntimeException("Undefined orientation: '{$this->getOrientation()}'");
         }
 
-        if ($this->farm->offEdge($newX, $newY)) {
-            $this->farm->sprayScent($this->x, $this->y);
-            $this->destroyRobot();
+        if ($this->farm->offEdge($newX, $newY) === false) {
+            $this->x = $newX;
+            $this->y = $newY;
             return;
         }
 
-        $this->x = $newX;
-        $this->y = $newY;
+        // Other robot warned us death is ahead
+        if ($this->farm->hasScent($this->x, $this->y)) {
+            return;
+        }
+
+        $this->farm->sprayScent($this->x, $this->y);
+        $this->destroyRobot();
     }
 
     private function destroyRobot()

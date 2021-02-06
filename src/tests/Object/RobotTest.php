@@ -120,4 +120,16 @@ class RobotTest extends TestCase
         $this->assertEquals(0, $robot->getX());
         $this->assertEquals(1, $robot->getY());
     }
+
+    public function testDontGetOffEdgeFromSameCoordsAsOtherRobot()
+    {
+        $farm = new Farm(1, 1);
+        $dumbRobot = new Robot(farm: $farm, x: 0, y: 0, orientation: 'W', moves: ['R', 'F', 'F', 'F']);
+        $smartRobot = new Robot(farm: $farm, x: 0, y: 0, orientation: 'W', moves: ['R', 'F', 'F', 'F']);
+
+        $dumbRobot->deploy();
+        $smartRobot->deploy();
+
+        $this->assertEquals(false, $smartRobot->isDestroyed());
+    }
 }
