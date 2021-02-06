@@ -3,6 +3,7 @@ namespace Dmitrev\RobotChallenge\Controller;
 
 use Dmitrev\RobotChallenge\Object\Farm;
 use Dmitrev\RobotChallenge\Object\Robot;
+use Dmitrev\RobotChallenge\Service\InputGenerator;
 use Dmitrev\RobotChallenge\Service\InputParser;
 use Stringable;
 
@@ -10,15 +11,10 @@ class Controller
 {
     public function handle(): string|Stringable
     {
-        $input = <<<EOL
-        5 3
-        1 1 E
-        RFRFRFRF
-        3 2 N
-        FRRFLLFFRRFLL
-        0 3 W
-        LLFFFLFLFL
-        EOL;
+
+        $input = InputGenerator::random();
+        // Override input with sample data
+//        $input = InputGenerator::example();
 
         $parsedInput = InputParser::parse($input);
 

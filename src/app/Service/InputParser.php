@@ -7,6 +7,7 @@ class InputParser
     public static function parse(string $input): array
     {
         $lines = explode("\n", $input);
+        $lines = array_filter($lines);
 
         $data = [
             'farm' => [],
