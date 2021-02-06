@@ -15,7 +15,8 @@
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
-            "Dmitrev\\RobotChallenge\\": "app/"
+            "Dmitrev\\RobotChallenge\\": "app/",
+            "Tests\\": "tests/"
         }
     }
 }
