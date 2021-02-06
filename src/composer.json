@@ -12,5 +12,10 @@
             "email": "dmitri.chebotarev@gmail.com"
         }
     ],
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Dmitrev\\RobotChallenge\\": "app/"
+        }
+    }
 }
