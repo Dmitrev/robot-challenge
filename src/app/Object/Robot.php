@@ -111,4 +111,14 @@ class Robot
     {
         return $this->y;
     }
+
+    public function getPosition(): string
+    {
+        $pos = "{$this->x} {$this->y} {$this->getOrientation()}";
+        if ($this->isDestroyed() === true) {
+            $pos .= ' LOST';
+        }
+
+        return $pos;
+    }
 }
