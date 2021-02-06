@@ -26,6 +26,7 @@ class Robot
             switch ($move) {
                 case 'L': $this->turnLeft(); break;
                 case 'R': $this->turnRight(); break;
+                case 'F': $this->moveForward(); break;
                 default: throw new RuntimeException("Undefined move: '{$move}'");
             }
         }
@@ -56,6 +57,17 @@ class Robot
     public function getOrientation(): string
     {
         return $this->orientations[$this->currentOrientation];
+    }
+
+    private function moveForward()
+    {
+        switch ($this->getOrientation()) {
+            case 'N': $this->y++; break;
+            case 'E': $this->x++; break;
+            case 'S': $this->y--; break;
+            case 'W': $this->x--; break;
+            default: throw new RuntimeException("Undefined orientation: '{$this->getOrientation()}'");
+        }
     }
 
 }

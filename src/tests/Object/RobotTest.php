@@ -69,4 +69,35 @@ class RobotTest extends TestCase
             ['orientation' => 'W', 'moves' => ['R'], 'expected' => 'N'],
         ];
     }
+
+    /**
+     * @dataProvider rightTurnsProvider
+     * @param string $orientation
+     * @param array $moves
+     * @param string $expected
+     */
+    public function testCanMoveForward(string $orientation, array $moves, string $expected)
+    {
+        $robot = new Robot(
+            farm: new Farm(1, 1),
+            x: 1,
+            y: 1,
+            orientation: $orientation,
+            moves: $moves
+        );
+
+        $robot->deploy();
+
+        $this->assertEquals($expected, $robot->getOrientation());
+    }
+
+    public function forwardMovesProvider(): array
+    {
+        return [
+            ['orientation' => 'N', 'moves' => ['F'], 'expectedX' => 1, 'expectedY' => 2],
+            ['orientation' => 'E', 'moves' => ['F'], 'expectedX' => 2, 'expectedY' => 1],
+            ['orientation' => 'S', 'moves' => ['F'], 'expectedX' => 1, 'expectedY' => 0],
+            ['orientation' => 'W', 'moves' => ['F'], 'expectedX' => 0, 'expectedY' => 1],
+        ];
+    }
 }
