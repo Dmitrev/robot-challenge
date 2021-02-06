@@ -71,15 +71,16 @@ class RobotTest extends TestCase
     }
 
     /**
-     * @dataProvider rightTurnsProvider
+     * @dataProvider forwardMovesProvider
      * @param string $orientation
      * @param array $moves
-     * @param string $expected
+     * @param int $expectedX
+     * @param int $expectedY
      */
-    public function testCanMoveForward(string $orientation, array $moves, string $expected)
+    public function testCanMoveForward(string $orientation, array $moves, int $expectedX, int $expectedY)
     {
         $robot = new Robot(
-            farm: new Farm(1, 1),
+            farm: new Farm(2, 2),
             x: 1,
             y: 1,
             orientation: $orientation,
@@ -88,7 +89,8 @@ class RobotTest extends TestCase
 
         $robot->deploy();
 
-        $this->assertEquals($expected, $robot->getOrientation());
+        $this->assertEquals($expectedX, $robot->getX());
+        $this->assertEquals($expectedY, $robot->getY());
     }
 
     public function forwardMovesProvider(): array
@@ -99,5 +101,23 @@ class RobotTest extends TestCase
             ['orientation' => 'S', 'moves' => ['F'], 'expectedX' => 1, 'expectedY' => 0],
             ['orientation' => 'W', 'moves' => ['F'], 'expectedX' => 0, 'expectedY' => 1],
         ];
+    }
+
+    public function testStopsMovingWhenDestroyed()
+    {
+        $farm = new Farm(1, 1);
+        $robot = new Robot(
+            farm: $farm,
+            x: 0,
+            y: 0,
+            orientation: 'W',
+            moves: ['R', 'F', 'F', 'F']
+        );
+
+        $robot->deploy();
+
+        $this->assertEquals(true, $robot->isDestroyed());
+        $this->assertEquals(0, $robot->getX());
+        $this->assertEquals(1, $robot->getY());
     }
 }

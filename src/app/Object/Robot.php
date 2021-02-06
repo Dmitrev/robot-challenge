@@ -8,6 +8,7 @@ class Robot
 {
     private array $orientations = ['N', 'E', 'S', 'W',];
     private int $currentOrientation;
+    private bool $destroyed = false;
 
     public function __construct(
         private Farm $farm,
@@ -19,7 +20,6 @@ class Robot
         $this->currentOrientation = array_flip($this->orientations)[$orientation];
     }
 
-
     public function deploy()
     {
         foreach ($this->moves as $move) {
@@ -28,6 +28,10 @@ class Robot
                 case 'R': $this->turnRight(); break;
                 case 'F': $this->moveForward(); break;
                 default: throw new RuntimeException("Undefined move: '{$move}'");
+            }
+
+            if ($this->isDestroyed() === true) {
+                return;
             }
         }
     }
@@ -61,13 +65,44 @@ class Robot
 
     private function moveForward()
     {
+        $newX = $this->x;
+        $newY = $this->y;
+
         switch ($this->getOrientation()) {
-            case 'N': $this->y++; break;
-            case 'E': $this->x++; break;
-            case 'S': $this->y--; break;
-            case 'W': $this->x--; break;
+            case 'N': $newY++; break;
+            case 'E': $newX++; break;
+            case 'S': $newY--; break;
+            case 'W': $newX--; break;
             default: throw new RuntimeException("Undefined orientation: '{$this->getOrientation()}'");
         }
+
+        if ($this->farm->offEdge($newX, $newY)) {
+            $this->farm->sprayScent($this->x, $this->y);
+            $this->destroyRobot();
+            return;
+        }
+
+        $this->x = $newX;
+        $this->y = $newY;
     }
 
+    private function destroyRobot()
+    {
+        $this->destroyed = true;
+    }
+
+    public function isDestroyed(): bool
+    {
+        return $this->destroyed;
+    }
+
+    public function getX(): int
+    {
+        return $this->x;
+    }
+
+    public function getY(): int
+    {
+        return $this->y;
+    }
 }
