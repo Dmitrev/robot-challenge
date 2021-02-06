@@ -1,0 +1,16 @@
+{
+    "name": "dmitrev/robot-challenge",
+    "description": "Robot code challenge",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dmitri Chebotarev",
+            "email": "dmitri.chebotarev@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable"
+}
